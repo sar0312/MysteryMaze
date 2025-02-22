@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Maze - Bank Heist</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Vault door animation background */
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%),
+                repeating-conic-gradient(from 0deg,
+                    #222 0deg 10deg,
+                    #333 10deg 20deg);
+            opacity: 0.1;
+            animation: rotate 120s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main content container */
+        .container {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        /* Title styling */
+        .title {
+            font-size: 4.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+            to { text-shadow: 0 0 20px rgba(255,215,0,0.8), 
+                            0 0 30px rgba(255,215,0,0.6); }
+        }
+
+        /* Play button styling */
+        .play-button {
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            border: none;
+            border-radius: 50px;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,215,0,0.5);
+        }
+
+        .play-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Help tooltip */
+        .help-tooltip {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .help-tooltip:hover {
+            background: rgba(255,215,0,0.2);
+        }
+
+        .tooltip-content {
+            display: none;
+            position: absolute;
+            bottom: 50px;
+            right: 0;
+            width: 300px;
+            background: rgba(0,0,0,0.9);
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .help-tooltip:hover .tooltip-content {
+            display: block;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+            }
+            
+            .play-button {
+                padding: 0.8rem 2rem;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="container">
+        <h1 class="title">Mystery Maze</h1>
+        <form action="locker.html">
+        <button class="play-button" onclick="startGame()">Play</button>
+    </form>
+    </div>
+    <div class="help-tooltip">
+        ?
+        <div class="tooltip-content">
+            Welcome to Mystery Maze! Your mission is to crack the codes of 9 secure lockers and collect the loot inside. Each locker requires a 4-digit code to unlock. Solve the clues and maximize your earnings. Good luck, master thief!
+        </div>
+    </div>
+</body>
+</html>
