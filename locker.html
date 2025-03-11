@@ -3,218 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystery Maze - Game</title>
-<style>
-    body {
-        background: linear-gradient(135deg, #000 0%, #111 100%);
-        color: #0ff;
-        padding: 2rem;
-        font-family: 'Orbitron', sans-serif;
-    }
+    <title>The Vault - Cyber Heist</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-    .header {
-        text-align: center;
-        margin-bottom: 2rem;
-        text-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
 
-    .score-container {
-        background: rgba(0, 255, 255, 0.1);
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        text-align: center;
-        font-size: 1.5rem;
-        text-shadow: 0 0 10px #0ff;
-    }
+        body {
+            background: url('cyberpunk(1).png') no-repeat center center fixed;
+            background-size: cover;
+            color: #00eaff;
+            padding: 2rem;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .lockers-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+        .header {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px #ff00ff, 0 0 30px #00eaff;
+            font-weight: bold;
+        }
 
-    .locker {
-        aspect-ratio: 1;
-        background: rgba(0, 255, 255, 0.1);
-        border: 2px solid #0ff;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        padding: 1rem;
-        text-align: center;
-        box-shadow: 0 0 10px #0ff;
-    }
+        .score-container {
+            font-size: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
 
-    .locker:hover {
-        background: rgba(0, 255, 255, 0.2);
-        transform: scale(1.05);
-        box-shadow: 0 0 20px #0ff, 0 0 40px #f0f;
-    }
+        .lockers-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
 
-    .locker.unlocked {
-        background: rgba(0, 255, 0, 0.1);
-        box-shadow: 0 0 20px #0f0;
-    }
+        .lockers-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
 
-    .modal-content {
-        background: #111;
-        border: 2px solid #0ff;
-        padding: 2rem;
-        border-radius: 10px;
-        text-shadow: 0 0 10px #0ff;
-    }
+        .locker {
+            padding: 1.2rem;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00eaff, #ff00ff);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            box-shadow: 0 0 20px #00eaff;
+            width: 280px;
+            text-align: center;
+        }
 
-    .modal button {
-        background: linear-gradient(90deg, #0ff, #f0f);
-        color: #000;
-        font-weight: bold;
-        transition: 0.3s;
-    }
+        .locker:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px #ff00ff;
+        }
 
-    .modal button:hover {
-        box-shadow: 0 0 20px #0ff, 0 0 40px #f0f;
-    }
-</style>
+        .locker.unlocked {
+            background: #006eff;
+            color: #fff;
+        }
 
+        .back-button {
+            margin-top: 2rem;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff00ff, #00eaff);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            box-shadow: 0 0 20px #ff00ff;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px #00eaff;
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Mystery Maze</h1>
-    </div>
+    <div class="header">LOCKERS</div>
 
     <div class="score-container">
-        Total Loot: ₹<span id="total-loot">0</span>
+        Choose one of the lockers to begin <span id="choice"></span>
     </div>
 
-    <div class="lockers-grid" id="lockers-grid"></div>
+    <div class="lockers-container">
+        <!-- Top row (3 lockers) -->
+        <div class="lockers-row">
+            		<button class="locker" onclick="unlockLocker(0, this)">MOVIES</button>
+		<a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/entertainment questions and riddles/entertainment-q1.html">
+            		<button class="locker" onclick="unlockLocker(1, this)">ENTERTAINMENT</button>
+		</a>
+            		<button class="locker" onclick="unlockLocker(2, this)">LITERATURE</button>
+        </div>
 
-    <div class="modal" id="passcode-modal">
-        <div class="modal-content">
-            <h2>Enter Passcode</h2>
-            <input type="text" id="passcode-input" maxlength="4" pattern="\d*">
-            <div>
-                <button onclick="checkPasscode()">Submit</button>
-                <button onclick="closeModal()">Cancel</button>
-            </div>
-            <p id="error-message" style="color: red; margin-top: 1rem;"></p>
+        
+        <!-- Bottom row (2 centered lockers) -->
+        <div class="lockers-row" style="margin-top: 1rem;">
+            		<button class="locker" onclick="unlockLocker(3, this)">ART</button>
+		<a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q1.html">
+            		<button class="locker" onclick="unlockLocker(4, this)">SPORTS</button>
+		</a>
         </div>
     </div>
-
-    <script>
-        // Game data
-        const gameData = {
-            lockers: [
-                { name: "Visual Morse Code",  passcode: "1489", loot: 204545.45 },
-                { name: "Video",  passcode: "8826", loot: 136363.64 },
-                { name: "Bollywood Movies",  passcode: "3014", loot: 272727.27 },
-                { name: "Decoding From Shapes",  passcode: "1467", loot: 409090.91 },
-                { name: "Paintings",  passcode: "1029", loot: 545454.55 },
-                { name: "Currency & Exchange Rates",  passcode: "1023", loot: 681818.18 },
-                { name: "Book",  passcode: "1398", loot: 477272.73 },
-                { name: "Joint Account (Mark)",  passcode: "2328", loot: 613636.36 },
-                { name: "Joint Account (Angeline)",  passcode: "2106", loot: 1090909.09 },
-            ],
-            totalLoot: 0,
-            currentLocker: null,
-            unlockedLockers: new Set()
-        };
-
-        // Initialize game
-        function initGame() {
-            const grid = document.getElementById('lockers-grid');
-            gameData.lockers.forEach((locker, index) => {
-                const lockerDiv = document.createElement('div');
-                lockerDiv.className = 'locker';
-                lockerDiv.innerHTML = `
-                    <div class="locker-emoji">🔐</div>
-                    <div class="locker-name">${locker.name}</div>
-                `;
-                lockerDiv.onclick = () => openLockerModal(index);
-                grid.appendChild(lockerDiv);
-            });
-        }
-
-        // Format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-IN', {
-                style: 'decimal',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(amount);
-        }
-
-        // Modal functions
-        function openLockerModal(index) {
-            if (gameData.unlockedLockers.has(index)) return;
-            
-            gameData.currentLocker = index;
-            const modal = document.getElementById('passcode-modal');
-            const input = document.getElementById('passcode-input');
-            const errorMessage = document.getElementById('error-message');
-            
-            modal.style.display = 'flex';
-            input.value = '';
-            errorMessage.textContent = '';
-            input.focus();
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('passcode-modal');
-            modal.style.display = 'none';
-            gameData.currentLocker = null;
-        }
-
-        // Check passcode
-        function checkPasscode() {
-            const input = document.getElementById('passcode-input');
-            const errorMessage = document.getElementById('error-message');
-            const passcode = input.value;
-            
-            if (passcode === gameData.lockers[gameData.currentLocker].passcode) {
-                unlockLocker(gameData.currentLocker);
-                closeModal();
-            } else {
-                errorMessage.textContent = 'Incorrect passcode. Try again!';
-                input.value = '';
-                input.focus();
-            }
-        }
-
-        // Unlock locker
-        function unlockLocker(index) {
-            const locker = gameData.lockers[index];
-            const lockerDiv = document.querySelectorAll('.locker')[index];
-            
-            gameData.unlockedLockers.add(index);
-            gameData.totalLoot += locker.loot;
-            
-            // Update UI
-            lockerDiv.classList.add('unlocked');
-            lockerDiv.querySelector('.locker-emoji').textContent = '🔓';
-            document.getElementById('total-loot').textContent = formatCurrency(gameData.totalLoot);
-            
-            // Show success message
-            setTimeout(() => {
-                alert(`Congratulations! You found ₹${formatCurrency(locker.loot)} in the ${locker.name}!`);
-            }, 100);
-        }
-
-        // Handle keyboard events
-        document.getElementById('passcode-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                checkPasscode();
-            }
-        });
-
-        // Initialize game when page loads
-        document.addEventListener('DOMContentLoaded', initGame);
-    </script>
 </body>
 </html>
