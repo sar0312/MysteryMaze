@@ -145,20 +145,27 @@
         .catch(error => console.error("Error updating score:", error));
     }
 
-    function showHint() {
-        let hints = [
-            "Hint 1: This brand is famous for producing luxury sports cars.",
-            "Hint 2: It is an Italian brand, and its logo features a prancing horse."
-        ];
+   function showHint() {
+    let hints = [
+        "Hint 1: It's a hand game played by kids and adults alike.",
+        "Hint 2: The game involves three choices: rock, paper, and scissors."
+    ];
 
-        if (hintCount < hints.length) {
-            document.getElementById('hint-box').innerText = hints[hintCount];
-            document.getElementById('hint-box').style.display = "block";
-            hintCount++;
+    if (hintCount < hints.length) {
+        document.getElementById('hint-box').innerText = hints[hintCount];
+        document.getElementById('hint-box').style.display = "block";
+        hintCount++;
+        
+        // Deduct points for taking a hint, even if it's the first action
+        if (hintPenalty === 0) {
+            hintPenalty = 10;
         } else {
-            alert("No more hints available!");
+            hintPenalty += 10;
         }
+    } else {
+        alert("No more hints available!");
     }
+}
 </script>
 
 
