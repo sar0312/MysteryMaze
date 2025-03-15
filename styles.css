@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: black;
+    color: #0ff;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Neon Text Effect */
+h1 {
+    font-size: 42px;  /* Increased size */
+    text-transform: uppercase;
+    color: #0ff;
+    text-shadow: 0 0 20px #0ff, 0 0 30px #00ffff;
+    margin-bottom: 10px; /* Reduced space */
+}
+
+/* Scoreboard */
+.score-board {
+    display: flex;
+    justify-content: center;
+    gap: 60px;  /* Reduced space between scores */
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.score span {
+    font-size: 48px;  /* Bigger numbers */
+    font-weight: bold;
+    color: #ff00ff;
+    text-shadow: 0 0 20px #ff00ff;
+}
+
+/* Result Display */
+.result {
+    font-size: 28px;  /* Increased */
+    font-weight: bold;
+    padding: 5px;
+    text-shadow: 0px 0px 10px #00ffff;
+}
+
+/* Cyberpunk Buttons */
+.choices {
+    display: flex;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.choice {
+    font-size: 22px;  /* Increased */
+    font-weight: bold;
+    padding: 15px 30px;  /* Bigger buttons */
+    border: 2px solid #ff00ff;
+    background: transparent;
+    color: #0ff;
+    text-shadow: 0 0 10px #0ff;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 0 20px #ff00ff;
+    border-radius: 10px;
+}
+
+.choice:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #ff00ff;
+}
+
+/* Action Message */
+#action-message {
+    font-size: 20px;  /* Increased */
+    margin-top: 15px;  /* Reduced spacing */
+    color: #0ff;
+    text-shadow: 0px 0px 10px #00ffff;
+}

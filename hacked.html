@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacked</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        body {
+            background-color: black;
+            color: red;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px red;
+            width: 60%;
+        }
+
+        h1 {
+            font-size: 36px;
+            text-shadow: 0 0 10px red, 0 0 20px darkred;
+        }
+
+        p {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .glitch {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 5px red;
+            animation: glitch 0.5s infinite alternate;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 5px red, -2px -2px 5px cyan; }
+            100% { text-shadow: -2px -2px 5px red, 2px 2px 5px cyan; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="glitch">Your Website is Hacked</h1>
+        <p>Well played.</p>
+    </div>
+
+</body>
+</html>

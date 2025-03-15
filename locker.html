@@ -3,164 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Vault - Cyber Heist</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        body {
-            background: url('cyberpunk(1).png') no-repeat center center fixed;
-            background-size: cover;
-            color: #00eaff;
-            padding: 2rem;
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .team-name {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
-            margin-bottom: 1rem;
-        }
-
-        .header {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 15px #ff00ff, 0 0 30px #00eaff;
-            font-weight: bold;
-        }
-
-        .score-container {
-            font-size: 1.5rem;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff00ff;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            display: inline-block;
-        }
-
-        .lockers-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .lockers-row {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-
-        .locker {
-            padding: 1.2rem;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #00eaff, #ff00ff);
-            border: none;
-            border-radius: 50px;
-            color: #000;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-            box-shadow: 0 0 20px #00eaff;
-            width: 280px;
-            text-align: center;
-        }
-
-        .locker:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px #ff00ff;
-        }
-
-        .locker.unlocked {
-            background: #006eff;
-            color: #fff;
-        }
-
-        .back-button {
-            margin-top: 2rem;
-            padding: 1rem 3rem;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ff00ff, #00eaff);
-            border: none;
-            border-radius: 50px;
-            color: #000;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-            box-shadow: 0 0 20px #ff00ff;
-        }
-
-        .back-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px #00eaff;
-        }
-    </style>
+    <title>Locker Room</title>
+    <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
-    <!-- Team Name Display -->
-    <div class="team-name" id="teamDisplay">Team: Unknown</div>
-
-    <div class="header">LOCKERS</div>
-
-    <div class="score-container">
-        Choose one of the lockers to begin <span id="choice"></span>
-    </div>
-
-    <div class="lockers-container">
-        <!-- Top row (3 lockers) -->
-        <div class="lockers-row">
-	    <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/music questions and riddles/music-q1.html">
-            	<button class="locker" onclick="unlockLocker(0, this)">MUSIC</button>
-	    </a>
-            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/entertainment questions and riddles/entertainment-q1.html">
-                <button class="locker" onclick="unlockLocker(1, this)">ENTERTAINMENT</button>
-            </a>
-	    <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/literature questions and riddles/lit-q1.html">
-                <button class="locker" onclick="unlockLocker(2, this)">LITERATURE</button>
-	    </a>
-        </div>
-
-        <!-- Bottom row (2 centered lockers) -->
-        <div class="lockers-row" style="margin-top: 1rem;">
-            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/art questions and riddles/art-q1.html">
-                <button class="locker" onclick="unlockLocker(3, this)">ART</button>
-	    </a>
-            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q1.html">
-                <button class="locker" onclick="unlockLocker(4, this)">SPORTS</button>
-            </a>
+    <div class="container">
+        <h1 class="title">LOCKER ROOM</h1>
+        <p class="subtitle">Choose one of the lockers to begin</p>
+        <div class="lockers">
+            <a href="#" class="neon-box">MUSIC</a>
+            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/entertainment questions and riddles/entertainment-q1.html" class="neon-box">ENTERTAINMENT</a>
+            <a href="#" class="neon-box">LITERATURE</a>
+            <a href="#" class="neon-box">ART</a>
+            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q1.html" class="neon-box">SPORTS</a>
         </div>
     </div>
-
-    <script>
-        // Get the stored team name from local storage
-        const teamName = localStorage.getItem("teamName");
-
-        if (teamName) {
-            document.getElementById("teamDisplay").textContent = "Team: " + teamName;
-        } else {
-            document.getElementById("teamDisplay").textContent = "Team: Unknown";
-        }
-
-        function unlockLocker(lockerIndex, element) {
-            alert("You selected: " + element.textContent);
-            element.classList.add("unlocked");
-        }
-    </script>
 </body>
 </html>

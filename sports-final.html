@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Challenge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        body {
+            background-color: black;
+            color: limegreen;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px limegreen;
+            width: 60%;
+        }
+
+        h2 {
+            font-size: 36px;
+            text-shadow: 0 0 10px limegreen, 0 0 20px green;
+        }
+
+        p {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        input {
+            margin: 10px;
+            padding: 8px;
+            border: 1px solid limegreen;
+            background: black;
+            color: limegreen;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: 1px solid limegreen;
+            background: black;
+            color: limegreen;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        button:hover {
+            background: limegreen;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h2>Enter the Secret Password</h2>
+        <input type="password" id="password" placeholder="Enter password">
+        <button onclick="checkPassword()">Submit</button>
+        <p id="message"></p>
+    </div>
+    
+    <script>
+        let attempts = 2;
+        const correctPassword = "letmein"; // Change this as needed
+        
+        function checkPassword() {
+            let userInput = document.getElementById("password").value;
+            let message = document.getElementById("message");
+            let container = document.getElementById("container");
+            
+            if (userInput === correctPassword) {
+                container.innerHTML = "<h2>CONGRATULATIONS YOU HAVE SUCCESSFULLY ESCAPED</h2>";
+            } else {
+                attempts--;
+                if (attempts > 0) {
+                    message.innerText = "Try again. Attempts left: " + attempts;
+                } else {
+                    window.location.href = "failed.html"; // Change this to your failure page
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        body {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0d0d0d;
+            color: #00ffff;
+        }
+        canvas {
+            border: 3px solid #00ffff;
+            background-color: #141414;
+            display: block;
+            margin: auto;
+            box-shadow: 0 0 20px #00ffff;
+        }
+        h1, p {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tetris Game </h1>
+    <canvas id="tetris" width="300" height="600"></canvas>
+    <p>Use arrow keys to move the blocks.</p>
+    <script>
+        const canvas = document.getElementById("tetris");
+        const ctx = canvas.getContext("2d");
+        const ROWS = 20;
+        const COLS = 10;
+        const SQ = 30;
+        const COLORS = ["#ff0099", "#00ffff", "#ffcc00", "#ff3300", "#9933ff"];
+        let board = Array.from({ length: ROWS }, () => Array(COLS).fill("#141414"));
+        let score = 0;
+        let level = 1;
+        let dropSpeed = 1000;
+
+        function drawSquare(x, y, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x * SQ, y * SQ, SQ, SQ);
+            ctx.strokeStyle = "#00ffff";
+            ctx.strokeRect(x * SQ, y * SQ, SQ, SQ);
+        }
+
+        function drawBoard() {
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    drawSquare(c, r, board[r][c]);
+                }
+            }
+        }
+
+        class Piece {
+            constructor(shape, color) {
+                this.shape = shape;
+                this.color = color;
+                this.x = 3;
+                this.y = 0;
+            }
+
+            draw() {
+                this.shape.forEach((row, rIdx) => {
+                    row.forEach((value, cIdx) => {
+                        if (value) drawSquare(this.x + cIdx, this.y + rIdx, this.color);
+                    });
+                });
+            }
+
+            moveDown() {
+                this.y++;
+                if (this.collides()) {
+                    this.y--;
+                    this.lock();
+                    newPiece();
+                }
+            }
+
+            collides() {
+                return this.shape.some((row, rIdx) => {
+                    return row.some((value, cIdx) => {
+                        if (value) {
+                            let newX = this.x + cIdx;
+                            let newY = this.y + rIdx;
+                            return newY >= ROWS || board[newY][newX] !== "#141414";
+                        }
+                        return false;
+                    });
+                });
+            }
+
+            lock() {
+                this.shape.forEach((row, rIdx) => {
+                    row.forEach((value, cIdx) => {
+                        if (value) board[this.y + rIdx][this.x + cIdx] = this.color;
+                    });
+                });
+                checkLines();
+            }
+        }
+
+        function checkLines() {
+            board = board.filter(row => row.some(cell => cell === "#141414"));
+            let linesCleared = ROWS - board.length;
+            if (linesCleared > 0) {
+                board.unshift(...Array(linesCleared).fill(Array(COLS).fill("#141414")));
+                score += linesCleared * 10;
+                if (score >= level * 30) {
+                    level++;
+                    dropSpeed *= 0.8;
+                }
+            }
+        }
+
+        const SHAPES = [
+            [[1, 1, 1, 1]],
+            [[1, 1], [1, 1]],
+            [[0, 1, 1], [1, 1, 0]],
+            [[1, 1, 0], [0, 1, 1]],
+            [[1, 1, 1], [0, 1, 0]]
+        ];
+
+        function newPiece() {
+            let shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+            let color = COLORS[Math.floor(Math.random() * COLORS.length)];
+            currentPiece = new Piece(shape, color);
+        }
+
+        let currentPiece;
+        newPiece();
+
+        function drop() {
+            currentPiece.moveDown();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBoard();
+            currentPiece.draw();
+            setTimeout(drop, dropSpeed);
+        }
+
+        drop();
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "ArrowLeft") currentPiece.x--;
+            if (event.key === "ArrowRight") currentPiece.x++;
+            if (event.key === "ArrowDown") currentPiece.moveDown();
+        });
+    </script>
+</body>
+</html>

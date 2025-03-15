@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle Game</title>
+    <link rel="stylesheet" href="styles3.css">
+</head>
+<body>
+    <h1 class="title">WORDLE GAME</h1>
+    
+    <div id="game-board"></div>
+
+    <input type="text" id="word-input" maxlength="5" placeholder="Enter a 5-letter word">
+    <button onclick="submitWord()">Submit</button>
+    <p id="message"></p>
+    <p id="tries-remaining">Total Tries Left: <span id="tries-counter">5</span></p>
+
+    <script src="script3.js"></script>
+    <script>
+        let triesLeft = 5;
+        function updateTriesCounter() {
+            triesLeft--;
+            document.getElementById("tries-counter").textContent = triesLeft;
+        }
+    </script>
+</body>
+</html>

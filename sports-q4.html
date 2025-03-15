@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Trivia</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        body {
+            background-color: #0d0d0d;
+            color: #0fffc1;
+            font-family: 'Times New Roman', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00ffff;
+            width: 60%;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        img {
+            width: 200px;
+            height: auto;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #222;
+            color: #0fffc1;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #888;
+        }
+
+        .neon-border {
+            padding: 10px;
+            border: 2px solid #ff00ff;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #ff00ff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-shadow: 0 0 5px #000;
+        }
+
+        button:hover {
+            background: #00ffff;
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #ff00ff;
+        }
+
+        #tries-left {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        #hint-box {
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>'X' is definitely not known for their music acumen but they did feature in a Christina Aguilera song, Pipe.
+'Y', again, isn’t known for his musical prowess, but started putting his music out after his fans heard it on his story, and wanted to hear more. Who are X and Y?</h1>
+        <img src="https://static.wikia.nocookie.net/pixar/images/8/81/LuigiCars3.png" alt="Luigi from Cars">
+        <br>
+        <input type="text" id="answer" class="neon-border" placeholder="Enter your answer here">
+        <br>
+        <button onclick="checkAnswer()">Submit</button>
+        <button onclick="showHint()">Get Hint</button>
+
+        <p id="tries-left">Tries left: 5</p>
+        <div id="hint-box"></div>
+    </div>
+
+<script>
+    let tries = 5;
+    let hintCount = 0;
+    let correctAnswer = ["ferrari"];
+    let teamName = localStorage.getItem("teamName") || "Unknown Team";
+
+    function checkAnswer() {
+        let userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+
+        if (correctAnswer.includes(userAnswer)) {
+            let points = tries === 5 ? 50 : tries === 4 ? 45 : tries === 3 ? 40 : 30;
+            updateScore(teamName, points);
+            alert(`Correct! ${teamName} scored ${points} points!`);
+            window.location.href = "C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/pragya code/connect4.html";
+        } else {
+            tries--;
+            if (tries > 0) {
+                document.getElementById('tries-left').innerText = `Tries left: ${tries}`;
+                alert("Wrong answer! Try again.");
+            } else {
+                alert("You've run out of tries!");
+                window.location.href = "hacked.html";
+            }
+        }
+    }
+
+    function updateScore(teamName, points) {
+        fetch("http://localhost:5000/update-score", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ teamName, points })
+        })
+        .then(response => response.json())
+        .then(data => console.log("Score updated:", data))
+        .catch(error => console.error("Error updating score:", error));
+    }
+
+    function showHint() {
+        let hints = [
+            "Hint 1: This brand is famous for producing luxury sports cars.",
+            "Hint 2: It is an Italian brand, and its logo features a prancing horse."
+        ];
+
+        if (hintCount < hints.length) {
+            document.getElementById('hint-box').innerText = hints[hintCount];
+            document.getElementById('hint-box').style.display = "block";
+            hintCount++;
+        } else {
+            alert("No more hints available!");
+        }
+    }
+</script>
+
+
+
+</body>
+</html>
+
+

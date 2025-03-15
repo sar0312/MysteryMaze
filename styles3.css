@@ -1,0 +1,81 @@
+/* General Styling */
+body {
+    background-color: black;
+    color: cyan;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Title Style */
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 0 0 20px cyan;
+}
+
+/* Wordle Board */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    grid-template-rows: repeat(6, 60px);
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+/* Boxes for Words */
+.box {
+    width: 60px;
+    height: 60px;
+    background-color: black;
+    border: 2px solid cyan;
+    font-size: 2rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+/* Color Feedback */
+.correct {
+    background-color: green;
+}
+
+.misplaced {
+    background-color: yellow;
+    color: black;
+}
+
+.incorrect {
+    background-color: gray;
+}
+
+/* Input & Button */
+#word-input {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    background-color: cyan;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: white;
+}
+
+#message {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
