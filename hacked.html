@@ -51,6 +51,20 @@
             100% { text-shadow: -2px -2px 5px red, 2px 2px 5px cyan; }
         }
     </style>
+    <script>
+        // Prevent going back
+        history.pushState(null, "", location.href);
+        window.onpopstate = function () {
+            history.pushState(null, "", location.href);
+        };
+
+        // Keep redirecting to hacked.html if someone tries to leave
+        setInterval(() => {
+            if (document.visibilityState === "hidden") {
+                location.href = "hacked.html";
+            }
+        }, 1000);
+    </script>
 </head>
 <body>
 
@@ -61,3 +75,4 @@
 
 </body>
 </html>
+
