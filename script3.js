@@ -57,7 +57,7 @@ function submitWord() {
         score += points[5 - triesRemaining];
         alert(`🎉 You Win! Score: ${score}`);
         updateScoreInDB(score);
-        window.location.href = "C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q3.html";
+        window.location.href = "sports-q3.html";
         return;
     }
 
