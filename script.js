@@ -42,7 +42,7 @@ function playGame(userChoice) {
 function checkWinner() {
     if (userScore === maxScore) {
         resultDiv.textContent = "🏆 You won the game! Advance to your next challenge!";
-	window.location.href = "C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q7.html";
+	window.location.href = "sports-q7.html";
         disableGame();
     } else if (computerScore === maxScore) {
         resultDiv.textContent = "💀 Computer won the game! Play again to beat your opponent.";
