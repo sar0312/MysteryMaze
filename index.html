@@ -3,13 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystery Maze - Bank Heist</title>
-    <link rel="stylesheet" href="styles2.css">
+    <title>Cyber Heist</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background: url('cyberpunk.jpg') no-repeat center center/cover;
+            color: #00eaff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px #00eaff, 0 0 30px #ff00ff;
+        }
+
+        .team-input {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 1.2rem;
+            width: 300px;
+            text-align: center;
+            border: 2px solid #00eaff;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00eaff;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .play-button {
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00eaff, #ff00ff);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            box-shadow: 0 0 20px #00eaff;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px #ff00ff;
+        }
+
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            width: 80px;
+            height: 80px;
+            background: url('https://i.imgur.com/Z9RVtPr.png') no-repeat center;
+            background-size: contain;
+        }
+
+        .chatbot-container {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 320px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00eaff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff00ff;
+            text-align: center;
+        }
+
+        .chatbot-header {
+            background: #00eaff;
+            color: #000;
+            padding: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-body {
+            padding: 10px;
+            color: #fff;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">MYSTERY MAZE - BANK HEIST</h1>
-        <a href="locker.html" class="neon-box">ENTER THE VAULT</a>
+        <h1 class="title">Mystery Maze</h1>
+        
+        <!-- Team Name Input -->
+        <input type="text" id="teamName" class="team-input" placeholder="Enter Team Name">
+
+        <!-- Start Game Button -->
+        <button class="play-button" onclick="startGame()">Start Game</button>
     </div>
+
+    <div class="chatbot-icon" onclick="showNextMessage()"></div>
+    <div class="chatbot-container" id="chatbot">
+        <div class="chatbot-header">
+            HeistMaster AI 🤖
+            <span onclick="closeChat()" class="close-btn">✖</span>
+        </div>
+        <div class="chatbot-body" id="chat-body">
+            <p id="bot-message">Click the bot to begin...</p>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            const teamName = document.getElementById("teamName").value.trim();
+            if (teamName === "") {
+                alert("Please enter a team name to start the game!");
+                return;
+            }
+
+            // Store team name in local storage (can be used later in the game)
+            localStorage.setItem("teamName", teamName);
+
+            // Redirect to the game (locker.html)
+            window.location.href = "locker.html";
+        }
+
+        let step = 0;
+        const messages = [
+            "Welcome, hacker. The vault awaits.",
+            "Your mission: Crack 5 high-security lockers.",
+            "Choose wisely—some hold fortune, others deception.",
+            "Avoid detection. The AI security is watching.",
+            "Only the elite escape with the loot.",
+            "The cyber-heist begins now!"
+        ];
+
+        function showNextMessage() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.style.display = 'block';
+
+            if (step < messages.length) {
+                document.getElementById('bot-message').textContent = messages[step];
+                step++;
+            } else {
+                document.getElementById('bot-message').textContent = "You're on your own now...";
+            }
+        }
+
+        function closeChat() {
+            document.getElementById('chatbot').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
