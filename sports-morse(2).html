@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Morse Challenge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+        
+        body {
+            background-color: #0d0d0d;
+            color: #00ffcc;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00ffcc;
+            width: 60%;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        audio {
+            margin: 20px 0;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #222;
+            color: #00ffcc;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #ff00ff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-shadow: 0 0 5px #000;
+        }
+        button:hover {
+            background: #00ffcc;
+            box-shadow: 0 0 15px #00ffcc, 0 0 30px #ff00ff;
+        }
+        #tries-left {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        #morse-code {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff00ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Decrypt the Morse Code to Continue</h1>
+        <audio controls>
+            <source src="sports-morse(2).wav" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <br>
+        <input type="text" id="answer" placeholder="Enter decoded message here">
+        <br>
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="tries-left">Tries left: 5</p>
+        <p id="morse-code">Morse Code: a .- b -... c -.-. d -.. e . f ..-. g --. h .... i .. j .--- k -.- l .-.. m -- n -. o --- p .--. q --.- r .-. s ... t - u ..- v ...- w .-- x -..- y -.-- z --.. -</p>
+    </div>
+    
+    <script>
+        let tries = 5;
+        let correctPhrase = "neymar is the biggest what if in football he is the prince who never became a king";
+        
+        function checkAnswer() {
+            let userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+            
+            if (userAnswer === correctPhrase) {
+                let points = tries === 5 ? 50 : tries === 4 ? 45 : tries === 3 ? 40 : 30;
+                alert(`Correct! You scored ${points} points!`);
+                window.location.href = "sports-q9.html";
+            } else {
+                tries--;
+                if (tries > 0) {
+                    document.getElementById('tries-left').innerText = `Tries left: ${tries}`;
+                    alert("Wrong answer! Try again.");
+                } else {
+                    alert("You've run out of tries! Redirecting...");
+                    window.location.href = "hacked.html";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
