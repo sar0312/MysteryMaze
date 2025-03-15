@@ -4,24 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle Game</title>
-    <link rel="stylesheet" href="styles3.css">
+    <style>
+        body {
+            background-color: black;
+            color: cyan;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px cyan;
+        }
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(6, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin: 20px auto;
+        }
+        .box {
+            width: 60px;
+            height: 60px;
+            background-color: black;
+            border: 2px solid cyan;
+            font-size: 2rem;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-transform: uppercase;
+        }
+        .correct { background-color: green; }
+        .misplaced { background-color: yellow; color: black; }
+        .incorrect { background-color: gray; }
+        #word-input {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            font-size: 1.2rem;
+            background-color: cyan;
+            border: none;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background-color: white; }
+        #message { font-size: 1.5rem; margin-top: 20px; }
+    </style>
 </head>
 <body>
     <h1 class="title">WORDLE GAME</h1>
-    
+    <p>Level: <span id="level-counter">1</span></p>
     <div id="game-board"></div>
-
     <input type="text" id="word-input" maxlength="5" placeholder="Enter a 5-letter word">
     <button onclick="submitWord()">Submit</button>
-    <p id="message"></p>
     <p id="tries-remaining">Total Tries Left: <span id="tries-counter">5</span></p>
-
-    <script src="script3.js"></script>
     <script>
-        let triesLeft = 5;
-        function updateTriesCounter() {
-            triesLeft--;
-            document.getElementById("tries-counter").textContent = triesLeft;
+        // JavaScript logic here
+        const words = ["APPLE", "BRAIN", "CRISP", "DREAM", "EAGLE", "FLOUR", "GHOST", "HONEY", "IVORY", "JOLLY", "KNIFE", "LEMON", "MAGIC", "NOBLE", "OCEAN", "PENCIL", "QUEEN", "RUSTY", "SNAKE", "TIGER", "UMBRE", "VIVID", "WISPY", "XENON", "YOUTH", "ZEBRA"];
+        let level = 1;
+        let correctWord = words[Math.floor(Math.random() * words.length)];
+        let currentRow = 0;
+        let triesRemaining = 5;
+        let score = 0;
+        const points = [50, 45, 40, 30, 30];
+
+        document.addEventListener("DOMContentLoaded", createBoard);
+        document.getElementById("level-counter").textContent = level;
+        document.getElementById("tries-counter").textContent = triesRemaining;
+
+        function createBoard() {
+            const board = document.getElementById("game-board");
+            board.innerHTML = "";
+            for (let i = 0; i < 30; i++) {
+                let box = document.createElement("div");
+                box.classList.add("box");
+                board.appendChild(box);
+            }
+        }
+
+        function submitWord() {
+            let input = document.getElementById("word-input").value.toUpperCase();
+            let boxes = document.querySelectorAll(".box");
+            if (input.length !== 5) {
+                alert("Enter a 5-letter word!");
+                return;
+            }
+            let rowStart = currentRow * 5;
+            let wordArray = correctWord.split("");
+            let inputArray = input.split("");
+            for (let i = 0; i < 5; i++) {
+                let box = boxes[rowStart + i];
+                box.textContent = inputArray[i];
+                if (inputArray[i] === wordArray[i]) {
+                    box.classList.add("correct");
+                    wordArray[i] = null;
+                    inputArray[i] = "_";
+                }
+            }
+            for (let i = 0; i < 5; i++) {
+                let box = boxes[rowStart + i];
+                if (!box.classList.contains("correct") && wordArray.includes(inputArray[i])) {
+                    box.classList.add("misplaced");
+                    wordArray[wordArray.indexOf(inputArray[i])] = null;
+                    inputArray[i] = "_";
+                } else if (!box.classList.contains("correct")) {
+                    box.classList.add("incorrect");
+                }
+            }
+            if (input === correctWord) {
+                score += points[5 - triesRemaining];
+                alert(`🎉 Level ${level} Complete! Score: ${score}`);
+                updateScoreInDB(score);
+                nextLevel();
+                return;
+            }
+            currentRow++;
+            if (currentRow % 6 === 0) {
+                triesRemaining--;
+                document.getElementById("tries-counter").textContent = triesRemaining;
+                if (triesRemaining === 0) {
+                    alert("Game Over! You didn't pass this level.");
+                    window.location.href = "hacked.html";
+                    return;
+                }
+                correctWord = words[Math.floor(Math.random() * words.length)];
+                currentRow = 0;
+                createBoard();
+            }
+            document.getElementById("word-input").value = "";
+        }
+        function nextLevel() {
+            if (level < 3) {
+                level++;
+                document.getElementById("level-counter").textContent = level;
+                triesRemaining = 5;
+                document.getElementById("tries-counter").textContent = triesRemaining;
+                correctWord = words[Math.floor(Math.random() * words.length)];
+                currentRow = 0;
+                createBoard();
+            } else {
+                alert(`🎉 Congratulations! You completed all levels! Final Score: ${score}`);
+                window.location.href = "sports-q3.html";
+            }
         }
     </script>
 </body>
