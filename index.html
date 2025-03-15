@@ -32,6 +32,19 @@
             text-shadow: 0 0 15px #00eaff, 0 0 30px #ff00ff;
         }
 
+        .team-input {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 1.2rem;
+            width: 300px;
+            text-align: center;
+            border: 2px solid #00eaff;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00eaff;
+            border-radius: 10px;
+            outline: none;
+        }
+
         .play-button {
             padding: 1rem 3rem;
             font-size: 1.5rem;
@@ -99,9 +112,12 @@
 <body>
     <div class="container">
         <h1 class="title">Mystery Maze</h1>
-        <form action="locker.html">
-            <button class="play-button">Enter the Vault</button>
-        </form>
+        
+        <!-- Team Name Input -->
+        <input type="text" id="teamName" class="team-input" placeholder="Enter Team Name">
+
+        <!-- Start Game Button -->
+        <button class="play-button" onclick="startGame()">Start Game</button>
     </div>
 
     <div class="chatbot-icon" onclick="showNextMessage()"></div>
@@ -116,6 +132,20 @@
     </div>
 
     <script>
+        function startGame() {
+            const teamName = document.getElementById("teamName").value.trim();
+            if (teamName === "") {
+                alert("Please enter a team name to start the game!");
+                return;
+            }
+
+            // Store team name in local storage (can be used later in the game)
+            localStorage.setItem("teamName", teamName);
+
+            // Redirect to the game (locker.html)
+            window.location.href = "locker.html";
+        }
+
         let step = 0;
         const messages = [
             "Welcome, hacker. The vault awaits.",
@@ -144,3 +174,5 @@
     </script>
 </body>
 </html>
+
+
