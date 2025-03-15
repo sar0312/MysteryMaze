@@ -27,6 +27,14 @@
             justify-content: center;
         }
 
+        .team-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            margin-bottom: 1rem;
+        }
+
         .header {
             font-size: 3rem;
             margin-bottom: 2rem;
@@ -105,6 +113,9 @@
     </style>
 </head>
 <body>
+    <!-- Team Name Display -->
+    <div class="team-name" id="teamDisplay">Team: Unknown</div>
+
     <div class="header">LOCKERS</div>
 
     <div class="score-container">
@@ -114,21 +125,42 @@
     <div class="lockers-container">
         <!-- Top row (3 lockers) -->
         <div class="lockers-row">
-            		<button class="locker" onclick="unlockLocker(0, this)">MOVIES</button>
-		<a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/entertainment questions and riddles/entertainment-q1.html">
-            		<button class="locker" onclick="unlockLocker(1, this)">ENTERTAINMENT</button>
-		</a>
-            		<button class="locker" onclick="unlockLocker(2, this)">LITERATURE</button>
+	    <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/music questions and riddles/music-q1.html">
+            	<button class="locker" onclick="unlockLocker(0, this)">MUSIC</button>
+	    </a>
+            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/entertainment questions and riddles/entertainment-q1.html">
+                <button class="locker" onclick="unlockLocker(1, this)">ENTERTAINMENT</button>
+            </a>
+	    <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/literature questions and riddles/lit-q1.html">
+                <button class="locker" onclick="unlockLocker(2, this)">LITERATURE</button>
+	    </a>
         </div>
 
-        
         <!-- Bottom row (2 centered lockers) -->
         <div class="lockers-row" style="margin-top: 1rem;">
-            		<button class="locker" onclick="unlockLocker(3, this)">ART</button>
-		<a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q1.html">
-            		<button class="locker" onclick="unlockLocker(4, this)">SPORTS</button>
-		</a>
+            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/art questions and riddles/art-q1.html">
+                <button class="locker" onclick="unlockLocker(3, this)">ART</button>
+	    </a>
+            <a href="C:/Users/sarth/OneDrive/Desktop/cu shit/Techleons/sports questions and riddles/sports-q1.html">
+                <button class="locker" onclick="unlockLocker(4, this)">SPORTS</button>
+            </a>
         </div>
     </div>
+
+    <script>
+        // Get the stored team name from local storage
+        const teamName = localStorage.getItem("teamName");
+
+        if (teamName) {
+            document.getElementById("teamDisplay").textContent = "Team: " + teamName;
+        } else {
+            document.getElementById("teamDisplay").textContent = "Team: Unknown";
+        }
+
+        function unlockLocker(lockerIndex, element) {
+            alert("You selected: " + element.textContent);
+            element.classList.add("unlocked");
+        }
+    </script>
 </body>
 </html>
