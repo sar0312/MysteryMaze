@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect 4 - Extreme Mode</title>
+    <style>
+        body {
+            background-color: black;
+            color: #0ff;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(7, 80px);
+            grid-template-rows: repeat(6, 80px);
+            gap: 5px;
+            margin: auto;
+            width: max-content;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .cell {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .cell.player1 { background-color: #f00; }
+        .cell.player2 { background-color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>Connect 4 - Extreme Mode</h1>
+    <h2>Wins: <span id="winCounter">0</span>/3</h2>
+    <div class="board" id="board"></div>
+    
+<script>
+    const rows = 6, cols = 7;
+    let board, currentPlayer, gameActive, attempts = 5, playerWins = 0;
+    let difficulty = 5; // Start with extremely hard difficulty
+    let score = [50, 45, 40, 30, 30];
+
+    const boardDiv = document.getElementById("board");
+    const winsDisplay = document.createElement("p");
+    winsDisplay.innerText = `Wins: ${playerWins}`;
+    document.body.insertBefore(winsDisplay, boardDiv);
+
+    function createBoard() {
+        board = Array.from({ length: rows }, () => Array(cols).fill(0));
+        boardDiv.innerHTML = "";
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                let cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.dataset.row = r;
+                cell.dataset.col = c;
+                cell.addEventListener("click", () => playerMove(c));
+                boardDiv.appendChild(cell);
+            }
+        }
+        gameActive = true;
+        currentPlayer = 1;
+    }
+
+    function playerMove(col) {
+        if (!gameActive) return;
+        for (let r = rows - 1; r >= 0; r--) {
+            if (board[r][col] === 0) {
+                board[r][col] = 1;
+                updateBoard();
+                if (checkWin(1)) return endGame("Player wins!");
+                currentPlayer = 2;
+                setTimeout(playComputerMove, 500);
+                return;
+            }
+        }
+    }
+
+    function playComputerMove() {
+        if (!gameActive) return;
+        
+        let col = findBestMove();
+        for (let r = rows - 1; r >= 0; r--) {
+            if (board[r][col] === 0) {
+                board[r][col] = 2;
+                updateBoard();
+                if (checkWin(2)) return endGame("Computer wins!");
+                currentPlayer = 1;
+                return;
+            }
+        }
+    }
+
+    function findBestMove() {
+        let bestScore = -Infinity;
+        let bestCol = -1;
+        
+        for (let col = 0; col < cols; col++) {
+            if (!isColumnPlayable(col)) continue;
+            
+            for (let r = rows - 1; r >= 0; r--) {
+                if (board[r][col] === 0) {
+                    board[r][col] = 2;
+                    let score = minimax(board, difficulty, false);
+                    board[r][col] = 0;
+
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestCol = col;
+                    }
+                    break;
+                }
+            }
+        }
+        return bestCol !== -1 ? bestCol : Math.floor(Math.random() * cols);
+    }
+
+    function minimax(board, depth, isMaximizing) {
+        if (checkWin(2)) return 1000;
+        if (checkWin(1)) return -1000;
+        if (depth === 0) return 0;
+
+        if (isMaximizing) {
+            let bestScore = -Infinity;
+            for (let col = 0; col < cols; col++) {
+                if (!isColumnPlayable(col)) continue;
+                for (let r = rows - 1; r >= 0; r--) {
+                    if (board[r][col] === 0) {
+                        board[r][col] = 2;
+                        let score = minimax(board, depth - 1, false);
+                        board[r][col] = 0;
+                        bestScore = Math.max(bestScore, score);
+                        break;
+                    }
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = Infinity;
+            for (let col = 0; col < cols; col++) {
+                if (!isColumnPlayable(col)) continue;
+                for (let r = rows - 1; r >= 0; r--) {
+                    if (board[r][col] === 0) {
+                        board[r][col] = 1;
+                        let score = minimax(board, depth - 1, true);
+                        board[r][col] = 0;
+                        bestScore = Math.min(bestScore, score);
+                        break;
+                    }
+                }
+            }
+            return bestScore;
+        }
+    }
+
+    function isColumnPlayable(col) {
+        return board[0][col] === 0;
+    }
+
+    function updateBoard() {
+        document.querySelectorAll(".cell").forEach(cell => {
+            const r = cell.dataset.row, c = cell.dataset.col;
+            cell.classList.remove("player1", "player2");
+            if (board[r][c] === 1) cell.classList.add("player1");
+            else if (board[r][c] === 2) cell.classList.add("player2");
+        });
+    }
+
+    function checkWin(player) {
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                if (board[r][c] === player) {
+                    if (c + 3 < cols && board[r][c + 1] === player && board[r][c + 2] === player && board[r][c + 3] === player) return true;
+                    if (r + 3 < rows && board[r + 1][c] === player && board[r + 2][c] === player && board[r + 3][c] === player) return true;
+                    if (r + 3 < rows && c + 3 < cols && board[r + 1][c + 1] === player && board[r + 2][c + 2] === player && board[r + 3][c + 3] === player) return true;
+                    if (r - 3 >= 0 && c + 3 < cols && board[r - 1][c + 1] === player && board[r - 2][c + 2] === player && board[r - 3][c + 3] === player) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function endGame(message) {
+        gameActive = false;
+        alert(message);
+        if (message.includes("Player")) {
+            playerWins++;
+            winsDisplay.innerText = `Wins: ${playerWins}`;
+            updateScore(score[5 - attempts]);
+            if (playerWins >= 3) {
+                setTimeout(() => window.location.href = "music-q5.html", 1000);
+            } else {
+                setTimeout(resetGame, 1000);
+            }
+        } else {
+            attempts--;
+            difficulty = Math.max(2, difficulty - 1); // Reduce AI difficulty gradually
+            setTimeout(resetGame, 1000);
+        }
+    }
+
+    function resetGame() {
+        gameActive = true;
+        createBoard();
+    }
+
+    function updateScore(points) {
+        fetch("http://localhost:3000/update-score", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: "player1", points }),
+        });
+    }
+
+    createBoard();
+</script>
+
+
+</body>
+</html>
