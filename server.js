@@ -11,10 +11,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/gameDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('MongoDB Connected'))
+mongoose.connect('mongodb://localhost:27017/mysterymaze')
+.then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
 // Define Schema
