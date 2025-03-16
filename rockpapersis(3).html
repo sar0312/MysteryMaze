@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk RPS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: black;
+            color: #0ff;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 { font-size: 42px; text-transform: uppercase; color: #0ff; text-shadow: 0 0 20px #0ff; }
+        .score-board { display: flex; gap: 40px; font-size: 24px; margin-bottom: 15px; }
+        .score span { font-size: 48px; font-weight: bold; color: #ff00ff; text-shadow: 0 0 20px #ff00ff; }
+        .result { font-size: 28px; font-weight: bold; padding: 5px; text-shadow: 0px 0px 10px #00ffff; }
+        .choices { display: flex; gap: 25px; margin-top: 10px; }
+        .choice { font-size: 22px; font-weight: bold; padding: 15px 30px; border: 2px solid #ff00ff; background: transparent; color: #0ff; cursor: pointer; transition: 0.3s ease-in-out; box-shadow: 0 0 20px #ff00ff; border-radius: 10px; }
+        .choice:hover { transform: scale(1.1); box-shadow: 0 0 25px #ff00ff; }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <div class="score-board">
+        <div class="score"><span id="win-count">0</span><p>Rounds Won</p></div>
+    </div>
+    <div class="score-board">
+        <div class="score"><span id="user-score">0</span><p>User</p></div>
+        <div class="score"><span id="computer-score">0</span><p>Computer</p></div>
+    </div>
+    <div class="result"><p>Choose your weapon!</p></div>
+    <div class="choices">
+        <button id="rock" class="choice">Rock</button>
+        <button id="paper" class="choice">Paper</button>
+        <button id="scissors" class="choice">Scissors</button>
+    </div>
+    <p id="action-message">Select Rock, Paper, or Scissors.</p>
+    <script>
+        let userScore = 0;
+        let computerScore = 0;
+        let winCount = 0;
+        let difficultyFactor = 0.3;
+        let attempt = 1;
+        let points = 0;
+        const maxScore = 10;
+        const maxWins = 3;
+        
+        const userScoreSpan = document.getElementById("user-score");
+        const computerScoreSpan = document.getElementById("computer-score");
+        const winCountSpan = document.getElementById("win-count");
+        const resultDiv = document.querySelector(".result p");
+        
+        document.querySelectorAll(".choice").forEach(choice => {
+            choice.addEventListener("click", function () {
+                playGame(this.id);
+            });
+        });
+        
+        function playGame(userChoice) {
+            const choices = ["rock", "paper", "scissors"];
+            const computerChoice = getDynamicComputerChoice(userChoice);
+            
+            if (userChoice === computerChoice) {
+                resultDiv.textContent = `⚡ Draw! Both chose ${userChoice.toUpperCase()}`;
+            } else if (
+                (userChoice === "rock" && computerChoice === "scissors") ||
+                (userChoice === "paper" && computerChoice === "rock") ||
+                (userChoice === "scissors" && computerChoice === "paper")
+            ) {
+                userScore++;
+                userScoreSpan.textContent = userScore;
+                resultDiv.textContent = `🔥 You win this round! ${userChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}!`;
+            } else {
+                computerScore++;
+                computerScoreSpan.textContent = computerScore;
+                resultDiv.textContent = `💀 You lose! ${computerChoice.toUpperCase()} beats ${userChoice.toUpperCase()}!`;
+            }
+            
+            if (userScore === maxScore) {
+                winCount++;
+                winCountSpan.textContent = winCount;
+                calculatePoints();
+                updateScore(points);
+                userScore = 0;
+                computerScore = 0;
+                userScoreSpan.textContent = userScore;
+                computerScoreSpan.textContent = computerScore;
+                difficultyFactor = Math.max(difficultyFactor - 0.05, 0.1);
+                checkGameWin();
+            }
+            
+            if (computerScore === maxScore) {
+                userScore = 0;
+                computerScore = 0;
+                userScoreSpan.textContent = userScore;
+                computerScoreSpan.textContent = computerScore;
+                resultDiv.textContent = "💀 Computer won this round! Try again!";
+            }
+        }
+        
+        function getDynamicComputerChoice(userChoice) {
+            const choices = ["rock", "paper", "scissors"];
+            const losingMoves = { rock: "paper", paper: "scissors", scissors: "rock" };
+            return Math.random() < difficultyFactor ? losingMoves[userChoice] : choices[Math.floor(Math.random() * 3)];
+        }
+        
+        function calculatePoints() {
+            if (attempt === 1) points += 50;
+            else if (attempt === 2) points += 45;
+            else if (attempt === 3) points += 40;
+            else points += 30;
+        }
+        
+        async function updateScore(points) {
+            try {
+                const response = await fetch('https://your-mongodb-api-endpoint/update-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ points })
+                });
+                const data = await response.text();
+                console.log(data);
+            } catch (error) {
+                console.error("Error updating score:", error);
+            }
+        }
+        
+        function checkGameWin() {
+            if (winCount === maxWins) {
+                resultDiv.textContent = "🏆 You won 3 rounds! Redirecting...";
+                setTimeout(() => window.location.href = "lit-q7.html", 2000);
+            }
+        }
+    </script>
+</body>
+</html>
